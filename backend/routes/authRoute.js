@@ -1,8 +1,14 @@
 import express from 'express'
-import { login } from '../controllers/auth.js';
+import { loginHandler, logoutHandler, refreshTokenHandler, signUpHandler } from '../controllers/auth.js';
 
 const authRoute = express.Router();
 
-authRoute.post('/login', login);
+authRoute.post('/signup', signUpHandler);
+
+authRoute.post('/login', loginHandler);
+
+authRoute.post('/refresh-token', refreshTokenHandler);
+
+authRoute.post('/logout', logoutHandler);
 
 export default authRoute
