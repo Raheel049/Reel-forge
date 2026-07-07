@@ -1,5 +1,7 @@
 import express from 'express'
 import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler } from '../controllers/auth.js';
+import passport from '../config/passport.js'
+import { googleLogin } from "../controllers/socialAuth.js";
 
 const authRoute = express.Router();
 
@@ -17,6 +19,26 @@ authRoute.post('/verify-otp', verificationHandler);
 
 authRoute.post("/forget-password", forgetPassword);
 
-authRoute.post("/change-password", changePassword)
+authRoute.post("/change-password", changePassword);
+
+authRoute.get(
+  "/google",
+
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  })
+);
+
+authRoute.get(
+  "/google/callback",
+
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/login",
+  }),
+
+  googleLogin
+);
 
 export default authRoute

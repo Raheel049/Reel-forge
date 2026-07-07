@@ -422,7 +422,7 @@ export const forgetPassword = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    const FE_URL = `http://${process.env.FE_BASE_URL}changePassword?q=${token}`;
+    const FE_URL = `http://${process.env.FE_BASE_URL}changePassword?token=${token}`;
 
     const transporter = nodemailer.createTransport({
       service: "Gmail",

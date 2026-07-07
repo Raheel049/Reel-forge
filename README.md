@@ -43,3 +43,39 @@ We are actively building the **Proof of Concept (PoC)** to validate the core ver
 
 ---
 *For internal team documentation, reference the full architectural document: `ReelForge_Blueprint (1).docx`.*
+
+
+## Setup of Google Authentication and Authorization
+## Step 1
+on go to google and search google `cloude console` 
+
+there are two options on cloude console switch account and second is agree and continue Click agree and continue and you will shift to dashboard
+
+select project and then window open to click on create project
+
+## Step 2
+click on three dot and then click on api & service `OAuth consent screen` and put info select `external`
+
+then click OAuth 2.0 select app type and name then you will found client ID save it on env file
+
+## Then define scope mean which data of user you want to get from google
+when you created` OAuth 2.0` then come on OAuth consent Screen where you have found `Data Access` click on it then `Add or remove scope` click on it and save 
+
+## Step 3 
+copy client ID and Client Secret from client put it into .env install pakage `npm i passport` and 
+`npm i passport-google-oauth20`
+
+## step 4
+Go to project and create a file passport.js in config folder 
+
+
+
+
+
+
+
+
+
+
+
+

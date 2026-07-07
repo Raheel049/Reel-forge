@@ -1,17 +1,21 @@
-import express, { urlencoded } from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
+import express from 'express';
+import './config/env.js'
 import { dbConnect } from './config/db.js';
 import authRoute from './routes/authRoute.js';
 import cookieParser from "cookie-parser";
+import passport from './config/passport.js'
+
 
 const app = express()
 
 const port = process.env.APP_PORT
 
+app.use(passport.initialize())
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+
 
 dbConnect()
 
