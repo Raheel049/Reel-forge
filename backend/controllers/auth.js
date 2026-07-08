@@ -9,6 +9,9 @@ import {
   generateRefreshToken,
 } from "../utils/generateToken.js";
 import refreshTokenModel from "../models/auth/refreshToken.js";
+import sessionModel from "../models/auth/session.js";
+import { createSession } from "../utils/createSession.js";
+
 
 export const signUpHandler = async (req, res) => {
   const { name, phoneNumber, email, password } = req.body;
@@ -151,15 +154,14 @@ export const loginHandler = async (req, res) => {
 
     const refreshToken = generateRefreshToken(user._id);
 
-    await refreshTokenModel.deleteMany({
-      user: user._id,
-    });
-
     await refreshTokenModel.create({
       user: user._id,
       token: refreshToken,
       expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
+
+    // Create Session
+    await createSession(user, refreshToken, req);
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
@@ -198,7 +200,7 @@ export const refreshTokenHandler = async (req, res) => {
     const token = req.cookies.refreshToken;
 
     if (!token) {
-      return res.status(401).josn({
+      return res.status(401).json({
         message: "Refresh token missing",
       });
     }
@@ -213,6 +215,22 @@ export const refreshTokenHandler = async (req, res) => {
     if (!storedToken) {
       return res.status(401).json({
         message: "Invalid refresh token",
+      });
+    }
+
+    const session = await sessionModel.findOneAndUpdate(
+      {
+        refreshToken: token,
+      },
+      {
+        lastActive: new Date(),
+      }
+    );
+
+    if (!session) {
+      return res.status(401).json({
+        message: "Session not found",
+        status: false,
       });
     }
 
@@ -246,7 +264,14 @@ export const logoutHandler = async (req, res) => {
       await refreshTokenModel.deleteOne({
         token: refreshToken,
       });
+
+      await sessionModel.deleteOne({
+        refreshToken: refreshToken,
+      });
+    
     }
+
+    
 
     res.clearCookie("accessToken");
 

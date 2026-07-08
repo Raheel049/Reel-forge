@@ -1,4 +1,5 @@
 import refreshTokenModel from "../models/auth/refreshToken.js";
+import { createSession } from "../utils/createSession.js";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -13,15 +14,14 @@ export const googleLogin = async (req, res) => {
   
       const refreshToken = generateRefreshToken(user._id);
   
-      await refreshTokenModel.deleteMany({
-        user: user._id,
-      });
-  
+      
       await refreshTokenModel.create({
         user: user._id,
         token: refreshToken,
         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       });
+
+      await createSession(user, refreshToken, req)
   
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
@@ -69,16 +69,14 @@ export const googleLogin = async (req, res) => {
   
       const refreshToken = generateRefreshToken(user._id);
   
-      await refreshTokenModel.deleteMany({
-        user: user._id,
-      });
-  
       await refreshTokenModel.create({
         user: user._id,
         token: refreshToken,
         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       });
   
+      await createSession(user, refreshToken, req);
+      
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
