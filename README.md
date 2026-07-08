@@ -72,6 +72,22 @@ Go to project and create a file passport.js in config folder
 
 
 
+## Implement the Github Login 
+
+## Step 1
+
+go github click on --> `profile icon` then navigation open to click on --> `settings` 
+
+## Step 2
+then left side bar open in last click on --> `developer` your will redirect to `OAuth app` 
+## Step 3
+create new and give your Web info name of web and url and callback URL donot check the `device manage`
+## Step 4
+Now you have a `Client ID` and generate `CLient Secret`
+
+
+
+
 
 
 

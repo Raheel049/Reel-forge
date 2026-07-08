@@ -1,7 +1,7 @@
 import express from 'express'
 import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler } from '../controllers/auth.js';
 import passport from '../config/passport.js'
-import { googleLogin } from "../controllers/socialAuth.js";
+import { googleLogin, githubLogin } from "../controllers/socialAuth.js";
 
 const authRoute = express.Router();
 
@@ -39,6 +39,25 @@ authRoute.get(
   }),
 
   googleLogin
+);
+
+
+//git hub login routes
+authRoute.get(
+  "/github",
+  passport.authenticate("github", {
+    scope: ["user:email"],
+    session: false,
+  })
+);
+
+authRoute.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    session: false,
+    failureRedirect: "/login",
+  }),
+  githubLogin
 );
 
 export default authRoute
