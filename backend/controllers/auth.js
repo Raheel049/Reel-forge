@@ -11,6 +11,7 @@ import {
 import refreshTokenModel from "../models/auth/refreshToken.js";
 import sessionModel from "../models/auth/session.js";
 import { createSession } from "../utils/createSession.js";
+import {UAParser} from "ua-parser-js";
 
 
 export const signUpHandler = async (req, res) => {
@@ -529,3 +530,14 @@ export const changePassword = async (req, res) => {
     });
   }
 };
+
+
+export const checkReq = (req, res) => {
+
+  const parser = new UAParser(req.headers['user-agent'])
+
+  console.log(parser.getResult())
+
+  console.log("userAgent",req.headers['user-agent']);
+  res.send("Hit success")
+}

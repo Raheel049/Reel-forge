@@ -86,6 +86,10 @@ create new and give your Web info name of web and url and callback URL donot che
 Now you have a `Client ID` and generate `CLient Secret`
 
 
+## Session Managent
+
+First of all we have to create a `createSession` function in the `utils` and `deviceInfo` by using ua-parser-js package when ever we create them then create a session Schema where we have keys `user, os, browser, device, refreshToken, and user-agent` then call createSession on login and Update accesToken in refreshToken  
+
 
 
 
