@@ -5,6 +5,7 @@ import authRoute from './routes/authRoute.js';
 import cookieParser from "cookie-parser";
 import passport from './config/passport.js'
 import sessionRoute from './routes/sessionRoute.js';
+import profileRoute from './routes/profileRoute.js';
 
 
 const app = express()
@@ -22,7 +23,8 @@ dbConnect()
 
 
 app.use('/api/auth',authRoute);
-app.use('/api/session', sessionRoute)
+app.use('/api/session', sessionRoute);
+app.use('/api/profile', profileRoute);
 
 app.listen(port, () => console.log(`server running on port ${port}`));
 

@@ -90,6 +90,9 @@ Now you have a `Client ID` and generate `CLient Secret`
 
 First of all we have to create a `createSession` function in the `utils` and `deviceInfo` by using ua-parser-js package when ever we create them then create a session Schema where we have keys `user, os, browser, device, refreshToken, and user-agent` then call createSession on login and Update accesToken in refreshToken  
 
+## Call refresh token
+As we now we  create to token on login and accessToken expire after 15 mintus so if we have `Unauthorized` we should to Call refreshToken on frontend
+
 
 
 

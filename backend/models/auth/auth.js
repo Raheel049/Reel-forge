@@ -44,6 +44,26 @@ const userSchema = mongoose.Schema({
         type: String,
         default: "",
     },
+
+    language: {
+        type: String,
+        default: "en",
+    },
+    
+    timezone: {
+        type: String,
+        default: "Asia/Karachi",
+    },
+    
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    
+    deletedAt: {
+        type: Date,
+        default: null,
+    },
 }, {timestamps: true})
 
 const userModel = mongoose.model("user",userSchema)

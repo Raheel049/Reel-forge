@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler, checkReq } from '../controllers/auth.js';
+import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler, } from '../controllers/auth.js';
 import passport from '../config/passport.js'
 import { googleLogin, githubLogin } from "../controllers/socialAuth.js";
 
@@ -60,6 +60,6 @@ authRoute.get(
   githubLogin
 );
 
-authRoute.get("/checkRequest", checkReq)
+// authRoute.get("/checkRequest", checkReq)
 
 export default authRoute
