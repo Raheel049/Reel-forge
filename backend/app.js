@@ -10,7 +10,7 @@ import profileRoute from './routes/profileRoute.js';
 
 const app = express()
 
-const port = process.env.APP_PORT
+const port = process.env.APP_PORT || 5000
 
 app.use(passport.initialize())
 app.use(cookieParser());
@@ -27,4 +27,6 @@ app.use('/api/session', sessionRoute);
 app.use('/api/profile', profileRoute);
 
 app.listen(port, () => console.log(`server running on port ${port}`));
+
+export default app
 

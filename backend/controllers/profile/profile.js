@@ -32,16 +32,24 @@ export const updateProfile = async (req, res) => {
     try {
         const userId = req.user.id
         const {name, phoneNumber, language, timezone} = req.body
+
+
         
-        const user = await userModel.findByIdAndUpdate({_id:userId, isDeleted: false}, {
-            name,
-            phoneNumber,
-            language,
-            timezone,
-        });
+        const updateData = {}
+
+        if(name !== undefined) updateData.name = name;
+        if(phoneNumber !== undefined) updateData.phoneNumber = phoneNumber;
+        if(language !== undefined) updateData.language = language;
+        if(timezone !== undefined) updateData.timezone = timezone;
+
+
+        const user = await userModel.findByIdAndUpdate({_id:userId, isDeleted: false},updateData,{
+            new : true,
+            runValidator: true,
+        } );
 
         if(!user){
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "User data not found",
                 data: null,
                 status: false
@@ -49,10 +57,10 @@ export const updateProfile = async (req, res) => {
         }
 
         res.status(200).json({
-            message: "Profile updated",
+            message: "Profile updated successfully",
             data: user,
             status: true
-        })
+        });
         
     } catch (error) {
         return res.status(500).json({
