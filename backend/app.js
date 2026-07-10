@@ -26,6 +26,11 @@ app.use('/api/auth',authRoute);
 app.use('/api/session', sessionRoute);
 app.use('/api/profile', profileRoute);
 
+
+app.get('/', (req, res) => {
+    res.send("Reel Forge Backend is running successfully!");
+});
+
 app.listen(port, () => console.log(`server running on port ${port}`));
 
 export default app
