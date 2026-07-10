@@ -48,9 +48,7 @@ export const signUpHandler = async (req, res) => {
     await userModel.create(userObj);
 
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      host: "smtp.gmail.com",
-      port: "465",
+      service: "gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.APP_PASS,
