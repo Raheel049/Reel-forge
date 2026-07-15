@@ -6,12 +6,15 @@ import cookieParser from "cookie-parser";
 import passport from './config/passport.js'
 import sessionRoute from './routes/sessionRoute.js';
 import profileRoute from './routes/profileRoute.js';
+import cors from 'cors'
 
 
 const app = express()
 
 const port = process.env.APP_PORT || 5000
 
+
+app.use(cors());
 app.use(passport.initialize())
 app.use(cookieParser());
 app.use(express.json())
