@@ -71,6 +71,23 @@ export const updateProfile = async (req, res) => {
     }
 }
 
-export const updateAvatar = (req, res) => {
-    res.send("Api hits")
-}
+export const updateAvatar = async (req, res) => {
+    try {
+
+        console.log(req.file);
+
+        return res.status(200).json({
+            success: true,
+            message: "Image received successfully",
+            file: req.file,
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+};

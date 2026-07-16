@@ -121,7 +121,88 @@ To redeploy the project and copy url to test on frontend or postman using url/ap
 
 
 
+backend/
+│
+├── config/
+│   ├── db.js
+│   ├── passport.js
+│   ├── cloudinary.js
+│   └── redis.js
+│
+├── controllers/
+│   ├── auth/
+│   │   ├── auth.js
+│   │   ├── socialAuth.js
+│   │   └── sessionController.js
+│   │
+│   ├── profile/
+│   │   └── profileController.js
+│   │
+│   ├── video/
+│   │   └── videoController.js
+│   │
+│   └── admin/
+│       └── adminController.js
+│
+├── middleware/
+│   ├── authMiddleware.js
+│   ├── multer.js
+│   ├── rateLimiter.js
+│   ├── validator.js
+│   └── errorHandler.js
+│
+├── models/
+│   ├── auth/
+│   │   ├── auth.js
+│   │   ├── otpSchema.js
+│   │   ├── refreshToken.js
+│   │   └── session.js
+│   │
+│   ├── profile/
+│   │   └── profile.js
+│   │
+│   └── video/
+│       └── video.js
+│
+├── routes/
+│   ├── authRoute.js
+│   ├── profileRoute.js
+│   ├── sessionRoute.js
+│   ├── videoRoute.js
+│   └── adminRoute.js
+│
+├── services/
+│   ├── emailService.js
+│   ├── otpService.js
+│   ├── tokenService.js
+│   ├── cloudinaryService.js
+│   └── aiService.js
+│
+├── utils/
+│   ├── generateToken.js
+│   ├── createSession.js
+│   ├── deviceInfo.js
+│   ├── sendEmail.js
+│   └── uploadFile.js
+│
+├── validations/
+│   ├── authValidation.js
+│   ├── profileValidation.js
+│   └── videoValidation.js
+│
+├── app.js
+├── server.js
+├── .env
+├── package.json
+└── README.md
 
 
 
+## Upload image using multer and cloudinart
+
+frontend ===> Express ==> Multer ==> req.file ==> cloudinary ==> 
+import `multer` 
+define storage const storage = multer.memoryStorage()
+fileFilter check user send only image
+upoad where we put storage, fileFilter, Limit 
 
