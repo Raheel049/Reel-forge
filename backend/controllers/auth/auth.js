@@ -1,17 +1,17 @@
-import userModel from "../models/auth/auth.js";
+import userModel from "../../models/auth/auth.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
-import otpModel from "../models/auth/otpSchema.js";
 import jwt from "jsonwebtoken";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../utils/generateToken.js";
-import refreshTokenModel from "../models/auth/refreshToken.js";
-import sessionModel from "../models/auth/session.js";
-import { createSession } from "../utils/createSession.js";
-// import {UAParser} from "ua-parser-js";
+} from "../../utils/generateToken.js";
+import sessionModel from "../../models/auth/session.js";
+import { createSession } from "../../utils/createSession.js";
+import otpModel from '../../models/auth/otpSchema.js'
+import refreshTokenModel from "../../models/auth/refreshToken.js";
+
 
 
 export const signUpHandler = async (req, res) => {

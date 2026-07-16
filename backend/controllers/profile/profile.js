@@ -70,3 +70,7 @@ export const updateProfile = async (req, res) => {
         })
     }
 }
+
+export const updateAvatar = (req, res) => {
+    res.send("Api hits")
+}

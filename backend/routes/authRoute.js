@@ -1,7 +1,7 @@
 import express from 'express'
-import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler, } from '../controllers/auth.js';
+import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler, } from '../controllers/auth/auth.js';
 import passport from '../config/passport.js'
-import { googleLogin, githubLogin } from "../controllers/socialAuth.js";
+import { googleLogin, githubLogin } from "../controllers/auth/socialAuth.js";
 
 const authRoute = express.Router();
 

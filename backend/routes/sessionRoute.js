@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllSession, logoutAllDevice, logoutDevice } from "../controllers/sessionController.js"
+import { getAllSession, logoutAllDevice, logoutDevice } from "../controllers/auth/sessionController.js"
 import { authMiddleware } from "../middleware/middleware.js"
 
 const sessionRoute = express.Router()

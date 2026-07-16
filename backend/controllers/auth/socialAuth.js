@@ -1,9 +1,6 @@
-import refreshTokenModel from "../models/auth/refreshToken.js";
-import { createSession } from "../utils/createSession.js";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from "../utils/generateToken.js";
+import refreshTokenModel from '../../models/auth/refreshToken.js'
+import { createSession } from '../../utils/createSession.js';
+import { generateAccessToken, generateRefreshToken } from '../../utils/generateToken.js';
 
 export const googleLogin = async (req, res) => {
     try {

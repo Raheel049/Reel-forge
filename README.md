@@ -94,7 +94,30 @@ First of all we have to create a `createSession` function in the `utils` and `de
 As we now we  create to token on login and accessToken expire after 15 mintus so if we have `Unauthorized` we should to Call refreshToken on frontend
 
 
+## Deployment on versel 
 
+For deplop backend on the vercel we should to apply some changes in our project.
+
+## 1st 
+We have no index.html file so we create `vercel.json` to configure
+
+## 2nd 
+Dynamic app.listen port port = process.env.PORT || 5000
+
+## 3rd
+export file export default app
+
+## 4th
+push code on git hub and go to `vercel` deploy project then go to `enviroment variables` in vercel and upload the env file 
+
+## 5th
+To redeploy the project and copy url to test on frontend or postman using url/api/auth/login
+
+
+## To Upload image Using the Cloudinary and Multer 
+1) Create cloudinary.js in config folder define `cloude name ` ,`apiKey`,`apiSecret`
+2) Create multer.js in Middleware folder to define Image size and image storage Location and type of image
+3) 
 
 
 

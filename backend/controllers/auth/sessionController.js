@@ -1,5 +1,5 @@
-import refreshTokenModel from "../models/auth/refreshToken.js";
-import sessionModel from "../models/auth/session.js";
+import refreshTokenModel from "../../models/auth/refreshToken.js";
+import sessionModel from "../../models/auth/session.js";
 
 export const getAllSession = async (req, res) => {
   try {
