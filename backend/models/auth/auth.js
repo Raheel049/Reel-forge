@@ -65,6 +65,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+
+    role: {
+        type: String,
+        default: "User"
+    },
     
     deletedAt: {
         type: Date,

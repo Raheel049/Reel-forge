@@ -9,6 +9,6 @@ profileRoute.get("/get-profile",authMiddleware, getProfile);
 
 profileRoute.patch("/update-profile",authMiddleware, updateProfile);
 
-profileRoute.put("/update-avatar", upload.single("avatar"),updateAvatar);
+profileRoute.put("/update-avatar",authMiddleware, upload.single("avatar"),updateAvatar);
 
 export default profileRoute

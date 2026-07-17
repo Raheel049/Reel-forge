@@ -206,3 +206,19 @@ define storage const storage = multer.memoryStorage()
 fileFilter check user send only image
 upoad where we put storage, fileFilter, Limit 
 
+## Subscription Plane 
+*Models*
+models
+│
+├── SubscriptionPlan.js      // Plans
+├── UserSubscription.js      // User ki active subscription
+├── Payment.js               // Payment history (future)
+
+*Controllers*
+controllers
+│
+└── subscription
+      ├── getPlans.js
+      ├── subscribePlan.js
+      ├── cancelSubscription.js
+      ├── currentSubscription.js
