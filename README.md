@@ -222,3 +222,9 @@ controllers
       ├── subscribePlan.js
       ├── cancelSubscription.js
       ├── currentSubscription.js
+
+
+## subscribe-plan
+planId get by req.body
+check is plan exists on that is 
+check user has already subscribe plan

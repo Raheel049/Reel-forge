@@ -1,11 +1,10 @@
-import userModel from "../../models/auth/auth.js";
 import subscriptionPlan from "../../models/subscription/subscriptionPlan.js";
 
 export const getPlans = async (req, res) => {
     try {
         
 
-        const plans = await subscriptionPlan.find()
+        const plans = await subscriptionPlan.find({isActive: true}).sort({price: 1})
 
         res.status(200).json({
             message : "Data found",
