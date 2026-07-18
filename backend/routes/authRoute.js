@@ -35,7 +35,7 @@ authRoute.get(
 
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "/login",
+    failureRedirect: "http://localhost:5173/login",
   }),
 
   googleLogin
@@ -55,7 +55,8 @@ authRoute.get(
   "/github/callback",
   passport.authenticate("github", {
     session: false,
-    failureRedirect: "/login",
+    failureRedirect: "http://localhost:5173/login",
+
   }),
   githubLogin
 );
