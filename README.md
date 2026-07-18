@@ -228,3 +228,33 @@ controllers
 planId get by req.body
 check is plan exists on that is 
 check user has already subscribe plan
+User Selects Plan
+        │
+        ▼
+Check Plan Exists?
+        │
+        ▼
+Find Active Subscription
+        │
+        ▼
+No Subscription?
+      │
+ ┌────┴─────┐
+ │          │
+Yes         No
+ │          │
+ ▼          ▼
+Create     Compare Plan
+              │
+       ┌──────┴──────┐
+       │             │
+    Same Plan    Different Plan
+       │             │
+       ▼             ▼
+ Return       Cancel Old Plan
+ "Already          │
+ Subscribed"       ▼
+              Create New Plan
+                    │
+                    ▼
+              Return Success

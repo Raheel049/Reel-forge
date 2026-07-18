@@ -93,6 +93,7 @@ export const signUpHandler = async (req, res) => {
     const OTPObj = {
       email: email,
       otp: OTP,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000)
     };
 
     await otpModel.create(OTPObj);
