@@ -34,16 +34,7 @@ export const googleLogin = async (req, res) => {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
   
-      return res.status(200).json({
-        message: "Google Login Successful",
-        status: true,
-        data: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          provider: user.provider,
-        },
-      });
+      return res.redirect("http://localhost:5173/");
   
     } catch (error) {
   

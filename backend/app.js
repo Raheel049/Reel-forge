@@ -17,8 +17,15 @@ const app = express()
 const port = process.env.APP_PORT || 5000
 
 
+<<<<<<< HEAD
 
 app.use(cors());
+=======
+app.use(cors({
+  origin: "http://localhost:5173", // React app
+  credentials: true,
+}));
+>>>>>>> 4ec9480463db2e202057f1dcd5de40c403131d5e
 app.use(passport.initialize())
 app.use(cookieParser());
 app.use(express.json())

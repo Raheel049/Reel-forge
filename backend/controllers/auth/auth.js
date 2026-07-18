@@ -120,6 +120,7 @@ export const signUpHandler = async (req, res) => {
 
 export const loginHandler = async (req, res) => {
   try {
+    console.log("login api hit")
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -140,10 +141,21 @@ export const loginHandler = async (req, res) => {
       });
     }
 
+    if(!user.isVerified){
+      return res.status(404).json({
+        message: "Unverified email and password please verify your email first",
+        status: false,
+        data: null,
+      });
+    }
+
+   
+
+
     const comparePassword = await bcrypt.compare(password, user.password);
 
     if (!comparePassword) {
-      return response.status(401).json({
+      return res.status(401).json({
         message: "Invalid email or password!",
         data: null,
         status: false,
@@ -151,6 +163,9 @@ export const loginHandler = async (req, res) => {
     }
 
     const accessToken = generateAccessToken(user._id);
+
+    console.log(accessToken,"accessToken")
+
 
     const refreshToken = generateRefreshToken(user._id);
 
@@ -305,7 +320,7 @@ export const verificationHandler = async (req, res) => {
       .sort({ createdAt: -1 });
 
     if (!isExists) {
-      return response.status(401).json({
+      return res.status(401).json({
         message: "OTP not exists",
         data: null,
         status: true,
@@ -348,6 +363,19 @@ export const resendOtpHandler = async (req, res) => {
         data: null,
       });
     }
+
+
+        const user = await userModel.findOne({ email });
+
+        if(user.isVerified==true){
+          return res.status(400).json({
+            message: "Email Already Verified",
+          status: false,
+            data: null,
+      });
+        }
+        // console.log(user.isVerified)
+
 
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -423,6 +451,8 @@ export const forgetPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
+    console.log(email)
+
     if (!email) {
       return res.status(400).json({
         message: "Required fields are missing",
@@ -447,7 +477,7 @@ export const forgetPassword = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    const FE_URL = `http://${process.env.FE_BASE_URL}changePassword?token=${token}`;
+    const FE_URL = `http://${process.env.FE_URL}?token=${token}`;
 
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -466,7 +496,11 @@ export const forgetPassword = async (req, res) => {
       from: process.env.EMAIL,
       to: email,
       subject: `Your forget password link`,
-      text: `Your link is ${FE_URL}`,
+
+    text: `Your link is ${FE_URL}`,
+
+
+
     });
 
     res.status(200).json({
@@ -484,8 +518,15 @@ export const forgetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const { password, confirmPassword } = req.body;
-    const { token } = req.query;
+    const { password, confirmPassword,token } = req.body;
+
+    console.log(password,confirmPassword)
+
+    // console.log(req.query)
+
+
+    // const { token } = req.query;
+    console.log(token)
 
     if (!password || !confirmPassword || !token) {
       return res.status(400).json({
