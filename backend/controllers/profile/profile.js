@@ -1,4 +1,5 @@
 import userModel from "../../models/auth/auth.js"
+import uploadToCloudinary from "../../utils/uploadToCloudinary.js";
 
 export const getProfile = async (req, res) => {
     try {
@@ -71,6 +72,57 @@ export const updateProfile = async (req, res) => {
     }
 }
 
-export const updateAvatar = (req, res) => {
-    res.send("Api hits")
-}
+
+export const updateAvatar = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+
+        console.log(userId)
+
+        if (!req.file) {
+            return res.status(400).json({
+                status: false,
+                message: "Please upload an image."
+            });
+        }
+
+        const result = await uploadToCloudinary(req.file.buffer);
+
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            {
+                avatar: {
+                    url: result.secure_url,
+                    publicId: result.public_id
+                }
+            },
+            {
+                  returnDocument: "after"
+            }
+        );
+
+        
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            status: true,
+            message: "Avatar updated successfully.",
+            avatar: updatedUser.avatar
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            status: false,
+            message: error.message || "Internal server error"
+        });
+
+    }
+};

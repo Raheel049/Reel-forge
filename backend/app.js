@@ -7,6 +7,7 @@ import passport from './config/passport.js'
 import sessionRoute from './routes/sessionRoute.js';
 import profileRoute from './routes/profileRoute.js';
 import cors from 'cors'
+import subscriptionRoute from './routes/subscriptionRoute.js';
 
 
 const app = express()
@@ -31,6 +32,7 @@ dbConnect()
 app.use('/api/auth',authRoute);
 app.use('/api/session', sessionRoute);
 app.use('/api/profile', profileRoute);
+app.use('/api/subscription', subscriptionRoute);
 
 
 app.get('/', (req, res) => {
