@@ -9,7 +9,7 @@ const subscriptionRoute = express.Router()
 
 subscriptionRoute.post("/get-plans",authMiddleware, getPlans);
 
-subscriptionRoute.post("/add-plan", authMiddleware, addPlan);
+subscriptionRoute.post("/add-plan",authMiddleware, addPlan);
 
 subscriptionRoute.post("/subscribe-plan",authMiddleware, subscribePlan);
 

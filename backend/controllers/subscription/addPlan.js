@@ -24,9 +24,9 @@ export const addPlan = async (req, res) => {
             })
         }
 
-        const { planName, description, price, currency, durationInDays } = req.body
+        const { planName, description, price, currency, durationInDays, credits } = req.body
 
-        if(!planName || !description || price === undefined || !currency || !durationInDays){
+        if(!planName || !description || price === undefined || !currency || !durationInDays || !credits){
             return res.status(400).json({
                 message : "Required fields are missing",
                 status: false,
@@ -39,7 +39,8 @@ export const addPlan = async (req, res) => {
             description,
             price,
             currency,
-            durationInDays
+            durationInDays,
+            credits
         }
 
         await subscriptionPlan.create(subObj)

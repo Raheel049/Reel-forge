@@ -1,23 +1,23 @@
-import { subscribePlanService } from "../../services/subscription/subscriptionServices.js";
+import { subscribeToPlan } from "../../services/subscription/subscriptionServices.js";
 
 export const subscribePlan = async (req, res) => {
     try {
 
-        const result = await subscribePlanService({
-            userId: req.user.id,
-            planId: req.body.planId
-        });
+        const { planId } = req.body;
+        const userId = req.user.id;
 
-        return res.status(result.statusCode).json({
-            message: result.message,
-            status: result.status,
-            data: result.data
+        const subscription = await subscribeToPlan(userId, planId);
+
+        return res.status(200).json({
+            message: "Plan subscribed successfully.",
+            status: true,
+            data: subscription
         });
 
     } catch (error) {
 
         return res.status(500).json({
-            message: error.message || "Internal server error",
+            message: error.message,
             status: false,
             data: null
         });

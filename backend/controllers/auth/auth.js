@@ -9,8 +9,9 @@ import {
 } from "../../utils/generateToken.js";
 import sessionModel from "../../models/auth/session.js";
 import { createSession } from "../../utils/createSession.js";
-import otpModel from '../../models/auth/otpSchema.js'
 import refreshTokenModel from "../../models/auth/refreshToken.js";
+import { createFreeSubscription } from "../../services/subscription/subscriptionServices.js";
+import otpModel from '../../models/auth/otpSchema.js'
 
 
 
@@ -45,7 +46,12 @@ export const signUpHandler = async (req, res) => {
 
     // console.log(userObj);
 
-    await userModel.create(userObj);
+    const user = await userModel.create(userObj);
+
+    await createFreeSubscription(user._id);
+
+
+
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -132,6 +138,7 @@ export const loginHandler = async (req, res) => {
     }
 
     const user = await userModel.findOne({ email });
+
 
     if (!user) {
       return res.status(404).json({
@@ -315,15 +322,15 @@ export const verificationHandler = async (req, res) => {
       });
     }
 
-    const isExists = await otpModel
-      .findOne({ email, isUsed: false })
-      .sort({ createdAt: -1 });
+    const isExists = await otpModel.findOne({ email, isUsed: false }).sort({ createdAt: -1 });
+
+      console.log("isExistsOtp",isExists)
 
     if (!isExists) {
       return res.status(401).json({
         message: "OTP not exists",
         data: null,
-        status: true,
+        status: false,
       });
     }
 
@@ -332,6 +339,14 @@ export const verificationHandler = async (req, res) => {
         message: "You have entered wrong OTP",
         data: null,
         status: true,
+      });
+    }
+
+    if(new Date(isExists.expiresAt).getTime() <= Date.now()){
+      return response.status(401).json({
+        message: "You OTP has expired",
+        data: null,
+        status: false,
       });
     }
 
@@ -425,6 +440,7 @@ export const resendOtpHandler = async (req, res) => {
     const OTPObj = {
       email: email,
       otp: OTP,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000)
     };
 
     await otpModel.create(OTPObj);

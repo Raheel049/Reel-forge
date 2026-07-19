@@ -43,6 +43,11 @@ const subscriptionPlanSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+
+        credits: {
+            type: Number,
+            required: true
+        }
     },
     {
         timestamps: true,

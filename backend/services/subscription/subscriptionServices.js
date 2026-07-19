@@ -1,55 +1,77 @@
 import subscriptionPlan from "../../models/subscription/subscriptionPlan.js";
 import userSubscription from "../../models/subscription/userSubscription.js";
+import creditsModel from "../../models/subscription/credits.js";
 
-export const subscribePlanService = async ({ userId, planId }) => {
+// ============================
+// Create Free Subscription
+// ============================
 
-    if (!planId) {
-        return {
-            statusCode: 400,
-            status: false,
-            message: "Plan ID is required",
-            data: null
-        };
+export const createFreeSubscription = async (userId) => {
+
+    const freePlan = await subscriptionPlan.findOne({
+        planName: "FREE",
+        isActive: true
+    });
+
+    if (!freePlan) {
+        throw new Error("Free plan not found.");
     }
 
-    // Check Plan
+    const startDate = new Date();
+
+    const endDate = new Date();
+
+    endDate.setDate(
+        endDate.getDate() + freePlan.durationInDays
+    );
+
+    await userSubscription.create({
+        userId,
+        planId: freePlan._id,
+        status: "active",
+        startDate,
+        endDate,
+        autoRenew: false
+    });
+
+    await creditsModel.create({
+        userId,
+        totalCredits: freePlan.credits,
+        usedCredits: 0,
+        remainingCredits: freePlan.credits
+    });
+
+};
+
+// ============================
+// Subscribe To New Plan
+// ============================
+
+export const subscribeToPlan = async (userId, planId) => {
+
+    // Find Selected Plan
     const plan = await subscriptionPlan.findById(planId);
 
     if (!plan) {
-        return {
-            statusCode: 404,
-            status: false,
-            message: "Subscription plan not found",
-            data: null
-        };
+        throw new Error("Subscription plan not found.");
     }
 
-    // Check Active Subscription
-    const activeSubscription = await userSubscription
-        .findOne({
-            userId,
-            status: "active"
-        }).populate("planId");
+    // Find Current Active Subscription
+    const activeSubscription = await userSubscription.findOne({
+        userId,
+        status: "active"
+    });
 
+    // If User Already Has Active Subscription
     if (activeSubscription) {
 
-        // Same Plan
-        if (
-            activeSubscription.planId._id.toString() ===
-            planId.toString()
-        ) {
-            return {
-                statusCode: 409,
-                status: false,
-                message: "You are already subscribed to this plan.",
-                data: activeSubscription
-            };
+        // Same Plan Check
+        if (activeSubscription.planId.toString() === planId.toString()) {
+            throw new Error("You are already subscribed to this plan.");
         }
 
-        // Cancel Old Subscription
-        activeSubscription.status = "cancelled";
-        activeSubscription.endDate = new Date();
-
+        // Expire Old Subscription
+        activeSubscription.status = "expired";
         await activeSubscription.save();
     }
 
@@ -69,16 +91,21 @@ export const subscribePlanService = async ({ userId, planId }) => {
         status: "active",
         startDate,
         endDate,
-        autoRenew: false,
-        paymentProvider: null,
-        paymentId: null
+        autoRenew: false
     });
 
-    return {
-        statusCode: 201,
-        status: true,
-        message: "Subscription activated successfully.",
-        data: newSubscription
-    };
-};
+    // Update User Credits
+    await userCredit.findOneAndUpdate(
+        { userId },
+        {
+            totalCredits: plan.credits,
+            usedCredits: 0,
+            remainingCredits: plan.credits
+        },
+        {
+            new: true
+        }
+    );
 
+    return newSubscription;
+};
