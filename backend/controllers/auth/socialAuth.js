@@ -99,3 +99,10 @@ export const googleLogin = async (req, res) => {
   
     }
   };
+
+
+
+  export const youtubeCallbackController = (req, res) => {
+    console.log(req.user);
+    res.send("YouTube Connected Successfully");
+};

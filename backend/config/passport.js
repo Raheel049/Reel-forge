@@ -86,4 +86,53 @@ passport.use(
   )
 );
 
+
+
+passport.use(
+  "google-youtube",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.YOUTUBE_CALLBACK_URL,
+    },
+
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+
+        const email = profile.emails[0].value;
+
+        let user = await userModel.findOne({ email });
+
+        // Agar user exist nahi karta to create kar do
+        if (!user) {
+          user = await userModel.create({
+            name: profile.displayName,
+            email,
+            provider: "google",
+            googleId: profile.id,
+            isVerified: true,
+            avatar: profile.photos?.[0]?.value || "",
+          });
+        }
+
+        // YouTube tokens bhi return kar do
+        return done(null, {
+          user,
+          accessToken,
+          refreshToken,
+        });
+
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  )
+);
+
+
+
+
+
+
 export default passport;
