@@ -10,6 +10,7 @@ import cors from 'cors'
 import subscriptionRoute from './routes/subscriptionRoute.js';
 import subscriptionExpiryJob from './job/subscriptionExpiryJob.js';
 import otpExpiryJob from './job/otpExpiryJob.js';
+import videoRoute from './routes/videoRoute.js';
 
 
 const app = express()
@@ -19,7 +20,6 @@ const port = process.env.APP_PORT || 5000
 
 
 
-app.use(cors());
 app.use(cors({
   origin: "http://localhost:5173", // React app
   credentials: true,
@@ -40,6 +40,8 @@ app.use('/api/auth',authRoute);
 app.use('/api/session', sessionRoute);
 app.use('/api/profile', profileRoute);
 app.use('/api/subscription', subscriptionRoute);
+app.use('/api/video', videoRoute);
+
 
 
 

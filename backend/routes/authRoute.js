@@ -1,7 +1,7 @@
 import express from 'express'
 import { loginHandler, logoutHandler, forgetPassword, changePassword, refreshTokenHandler, signUpHandler, resendOtpHandler, verificationHandler, } from '../controllers/auth/auth.js';
 import passport from '../config/passport.js'
-import { googleLogin, githubLogin } from "../controllers/auth/socialAuth.js";
+import { googleLogin, githubLogin, youtubeCallbackController } from "../controllers/auth/socialAuth.js";
 
 const authRoute = express.Router();
 
@@ -60,6 +60,35 @@ authRoute.get(
   }),
   githubLogin
 );
+
+
+
+authRoute.get(
+  "/youtube",
+  passport.authenticate("google-youtube", {
+    scope: [
+      "profile",
+      "email",
+      "https://www.googleapis.com/auth/youtube.upload",
+    ],
+    accessType: "offline",
+    prompt: "consent",
+    session: false,
+  })
+);
+
+
+
+authRoute.get(
+  "/youtube/callback",
+  passport.authenticate("google-youtube", {
+    session: false,
+    failureRedirect: "http://localhost:5173/login",
+  }),
+  youtubeCallbackController
+);
+
+
 
 // authRoute.get("/checkRequest", checkReq)
 
