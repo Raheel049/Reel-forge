@@ -324,7 +324,7 @@ export const verificationHandler = async (req, res) => {
 
     const isExists = await otpModel.findOne({ email, isUsed: false }).sort({ createdAt: -1 });
 
-      console.log("isExistsOtp",isExists)
+      
 
     if (!isExists) {
       return res.status(401).json({

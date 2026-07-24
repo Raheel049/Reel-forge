@@ -95,7 +95,7 @@ export const subscribeToPlan = async (userId, planId) => {
     });
 
     // Update User Credits
-    await userCredit.findOneAndUpdate(
+    await creditsModel.findOneAndUpdate(
         { userId },
         {
             totalCredits: plan.credits,
