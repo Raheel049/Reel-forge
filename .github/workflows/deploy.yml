@@ -37,7 +37,7 @@ jobs:
 
       - name: Deploy Docker image to EC2
         run: |
-          ssh -i private-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_SSH_KEY }} <<EOF
+          ssh -i private-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} <<EOF
             docker pull rahee049/repo-reelforge
             docker stop dazzling_knuth || true
             docker rm dazzling_knuth || true
