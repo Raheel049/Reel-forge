@@ -23,6 +23,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }} # Store your Docker Hub password in GitHub secrets
 
       - name: Build and push Docker image to Docker Hub
+        working-directory: ./backend
         run: |
           docker build -t rahee049/repo-reelforge .
           docker push rahee049/repo-reelforge
