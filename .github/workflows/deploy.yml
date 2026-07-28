@@ -22,6 +22,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }} # Store your Docker Hub username in GitHub secrets
           password: ${{ secrets.DOCKER_PASSWORD }} # Store your Docker Hub password in GitHub secrets
 
+      - name: Debug Repository
+        run: |
+          pwd
+          ls -la
+          find . -name Dockerfile
+
       - name: Build and push Docker image to Docker Hub
         working-directory: ./backend
         run: |
