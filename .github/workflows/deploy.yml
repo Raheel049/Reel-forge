@@ -22,12 +22,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }} # Store your Docker Hub username in GitHub secrets
           password: ${{ secrets.DOCKER_PASSWORD }} # Store your Docker Hub password in GitHub secrets
 
-      - name: Debug Repository
-        run: |
-          pwd
-          ls -la
-          find . -name Dockerfile
-
       - name: Build and push Docker image to Docker Hub
         working-directory: ./backend
         run: |
@@ -43,7 +37,7 @@ jobs:
 
       - name: Deploy Docker image to EC2
         run: |
-          ssh -i private-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} <<EOF
+          ssh -i private-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_SSH_KEY }} <<EOF
             docker pull rahee049/repo-reelforge
             docker stop dazzling_knuth || true
             docker rm dazzling_knuth || true
