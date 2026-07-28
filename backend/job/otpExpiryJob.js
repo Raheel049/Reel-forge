@@ -4,16 +4,14 @@ import otpModel from "../models/auth/otpSchema.js";
 const otpExpiryJob = () => {
 
     // Runs every 10 minutes
-    cron.schedule("*/10 * * * *", async () => {
+    cron.schedule("0 0 * * * *", async () => {
 
         try {
 
             console.log("Running OTP Expiry Job...");
 
             const result = await otpModel.deleteMany({
-                expiresAt: {
-                    $lte: new Date()
-                }
+                isUsed: true
             });
 
             console.log(
