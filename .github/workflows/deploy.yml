@@ -39,7 +39,12 @@ jobs:
         run: |
           ssh -i private-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} <<EOF
             docker pull rahee049/repo-reelforge
-            docker stop dazzling_knuth || true
-            docker rm dazzling_knuth || true
-            sudo docker run -d -p 3000:3000 --env-file .env rahee049/repo-reelforge
+            docker stop reelforge || true
+            docker rm reelfogrge || true
+            sudo docker run -d \
+            --name reelforge \
+            -p 3000:3000 \
+            --env-file .env \
+            --restart unless-stopped \
+            rahee049/repo-reelforge:latest
           EOF
