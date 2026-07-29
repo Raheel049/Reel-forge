@@ -48,23 +48,131 @@ export const createProject = async (req, res) => {
 
 export const getProjects = async (req, res) => {
   try {
+
     const owner = req.user.id;
 
+    let {
+      page = 1,
+      limit = 10,
+      search = "",
+      status,
+      sort = "newest",
+    } = req.query;
+
+    page = Number(page);
+    limit = Number(limit);
+
+    const filter = {
+      owner,
+    };
+
+    // ========================
+    // Search
+    // ========================
+
+    if (search) {
+      filter.$or = [
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          prompt: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    // ========================
+    // Status Filter
+    // ========================
+
+    if (status) {
+      filter.status = status;
+    }
+
+    // ========================
+    // Sorting
+    // ========================
+
+    let sortOption = {};
+
+    switch (sort) {
+
+      case "oldest":
+        sortOption = {
+          createdAt: 1,
+        };
+        break;
+
+      case "title":
+        sortOption = {
+          title: 1,
+        };
+        break;
+
+      case "status":
+        sortOption = {
+          status: 1,
+        };
+        break;
+
+      default:
+        sortOption = {
+          createdAt: -1,
+        };
+    }
+
+    const totalProjects = await projectModel.countDocuments(filter);
+
     const projects = await projectModel
-      .find({ owner })
-      .sort({ createdAt: -1 });
+      .find(filter)
+      .sort(sortOption)
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     return res.status(200).json({
+
       status: true,
+
       message: "Projects fetched successfully.",
+
       data: projects,
+
+      pagination: {
+
+        totalProjects,
+
+        currentPage: page,
+
+        totalPages: Math.ceil(totalProjects / limit),
+
+        limit,
+
+        hasNextPage:
+          page < Math.ceil(totalProjects / limit),
+
+        hasPrevPage:
+          page > 1,
+      },
     });
+
   } catch (error) {
+
     return res.status(500).json({
+
       status: false,
+
       message: error.message,
+
       data: null,
+
     });
+
   }
 };
 

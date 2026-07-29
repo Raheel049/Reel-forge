@@ -11,10 +11,10 @@ projectRoute.post("/create-project", authMiddleware, createProject);
 
 projectRoute.get("/all-project", authMiddleware, getProjects);
 
-projectRoute.get("/get-project:id", authMiddleware, getProjectById);
+projectRoute.get("/get-project/:id", authMiddleware, getProjectById);
 
-projectRoute.put("/update-project:id", authMiddleware, updateProject);
+projectRoute.put("/update-project/:id", authMiddleware, updateProject);
 
-projectRoute.delete("/delete-project:id", authMiddleware, deleteProject);
+projectRoute.delete("/delete-project/:id", authMiddleware, deleteProject);
 
 export default projectRoute;

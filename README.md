@@ -258,3 +258,61 @@ Create     Compare Plan
                     │
                     ▼
               Return Success
+
+
+
+
+## Main is order mein Project Module implement karunga:
+
+Phase 1
+✅ Project Schema
+✅ Create Project API
+✅ Get All Projects API
+✅ Get Single Project API
+✅ Update Project API
+✅ Delete Project API
+Phase 2
+✅ Pagination
+✅ Search
+✅ Status Filter
+✅ Sorting
+Phase 3
+✅ Generate Video API (placeholder)
+✅ Credit Check
+✅ AI Integration
+✅ Cloudinary Upload
+✅ Social Media Publish
+
+
+
+## Main agar ReelForge zero budget mein bana raha hota to ye stack choose karta:
+
+LLM (Script): Gemini API (free tier) ya OpenRouter free models
+Voice: Edge TTS (completely free, high quality)
+Images: Pollinations AI ya Flux (free)
+Video Rendering: FFmpeg (free, industry standard)
+Storage: Cloudinary (free tier)
+Backend: Node.js + Express
+Database: MongoDB
+
+
+
+1️⃣ Install Redis
+
+2️⃣ Install BullMQ
+
+3️⃣ Redis Connection
+
+4️⃣ Queue
+
+5️⃣ Worker
+
+6️⃣ Generate API → Queue.add()
+
+7️⃣ Worker → Fake 10 sec processing
+
+8️⃣ Update Project Status
+
+9️⃣ Frontend Live Status
+
+🔟 AI Integration

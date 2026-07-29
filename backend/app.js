@@ -12,6 +12,8 @@ import subscriptionExpiryJob from './job/subscriptionExpiryJob.js';
 import otpExpiryJob from './job/otpExpiryJob.js';
 import videoRoute from './routes/videoRoute.js';
 import projectRoute from './routes/projectRoute.js';
+import generateVideoRoute from './routes/generateVideoRoute.js';
+import { startNgrok } from './config/ngrok.js';
 
 
 const app = express()
@@ -37,22 +39,27 @@ subscriptionExpiryJob()
 otpExpiryJob()
 
 
+
 app.use('/api/auth',authRoute);
 app.use('/api/session', sessionRoute);
 app.use('/api/profile', profileRoute);
 app.use('/api/subscription', subscriptionRoute);
 app.use('/api/video', videoRoute);
 app.use('/api/project',projectRoute);
+app.use("/api/generateVideo", generateVideoRoute);
 
 
 
 
-
-app.get('/', (req, res) => {
+app.get('/start', (req, res) => {
     res.send("Reel Forge Backend is running successfully!");
 });
 
-app.listen(port, () => console.log(`server running on port ${port}`));
+app.listen(port, async () => {console.log(`server running on port ${port}`);
+if (process.env.NODE_ENV !== "production") {
+  await startNgrok();
+}
+}); 
 
 export default app
 
